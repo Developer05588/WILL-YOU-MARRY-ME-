@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Valentine For Him 💘</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:'Segoe UI',sans-serif;
+  background: linear-gradient(to top right,#1a001f,#4b004f,#ff4da6);
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+h1{
+  margin-top:50px;
+  font-size:30px;
+  text-shadow:0 0 20px pink;
+}
+
+#result{font-size:55px;height:65px;}
+#extra{font-size:20px;min-height:60px;color:#ffd6f5;}
+
+button{
+  padding:14px 32px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  margin:10px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.25);
+  color:white;
+}
+
+#yesBtn,#noBtn{position:relative;}
+
+.teddy{
+  font-size:60px;
+  margin-top:10px;
+}
+
+.dance{animation:dance 0.6s infinite alternate;}
+@keyframes dance{
+  from{transform:rotate(-20deg) scale(1.2);}
+  to{transform:rotate(20deg) scale(1.2);}
+}
+
+.cry{animation:cry 0.6s infinite alternate;}
+@keyframes cry{
+  from{transform:translateY(0);}
+  to{transform:translateY(8px);}
+}
+
+.confetti,.rose{
+  position:fixed;
+  top:-10px;
+  font-size:26px;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}
+
+/* 💍 Proposal Scene */
+#proposalScreen{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background: linear-gradient(to top right,#1a001f,#4b004f,#ff4da6);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  animation:fadeIn 1.5s;
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+#ring{
+  font-size:90px;
+  position:relative;
+  bottom:-200px;
+  animation:ringUp 2s forwards;
+}
+@keyframes ringUp{to{bottom:0;}}
+
+.proposalBtn{
+  margin-top:20px;
+  padding:15px 35px;
+  font-size:20px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  background:hotpink;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="question"></h1>
+<div class="teddy" id="teddy">🧸</div>
+<div id="result"></div>
+<div id="extra"></div>
+
+<button id="yesBtn" onclick="answer(true)">YES 💕</button>
+<button id="noBtn" onclick="answer(false)">NO 😒</button>
+
+<script>
+let step=0;
+
+const quiz=[
+{q:"WILL YOU BE MY VALENTINE HONEY!!!!? 💘",type:"normal",
+ extraNo:["YAKO DABBA 😔","NAN NIN HEART ALI ILVAA?","NAN ANDRE NINGE ISTA ILVAA? 🥺"]},
+
+{q:"NIN HOGI HOGI NANGE YAK BIDDE? 😌",type:"normal",
+ extraNo:["NAN LOOK NODI BIDDYA? 😏","NAN CHARACTER NODI BIDDYA?","ILLA NAN SMILE NODI? 😎"]},
+
+{q:"Ninge nanginta better option sikre accept maadtiya? 😒",type:"moveYes1"},
+
+{q:"Nan ilde irtiya? 💔",type:"moveYes2"},
+
+{q:"Nan nodidre kopa barutta illa preethi barutta? 😏",type:"replace"},
+
+{q:"Nangoskara kanniru aktiya? 🥺",type:"moveYes3"},
+
+{q:"Nan sigala adre yen maadtiya? 😢",type:"custom"},
+
+{q:"Nangoskara ninu yen bekadru maadoke ready ediya? 💞",type:"final"}
+];
+
+function loadQuestion(){
+  const q=quiz[step];
+  question.innerText=q.q;
+  extra.innerText="";
+  result.innerText="";
+  teddy.innerText="🧸";
+  teddy.className="teddy";
+  yesBtn.style.left="0"; yesBtn.style.top="0";
+  yesBtn.innerText="YES 💕";
+  noBtn.innerText="NO 😒";
+}
+
+function moveYes(){
+  yesBtn.style.position="absolute";
+  yesBtn.style.left=Math.random()*70+"vw";
+  yesBtn.style.top=Math.random()*60+"vh";
+}
+
+function answer(isYes){
+  const q=quiz[step];
+
+  if(q.type==="normal"){
+    if(isYes){ teddy.innerText="🧸💃"; teddy.className="teddy dance"; step++; loadQuestion();}
+    else{ teddy.innerText="🧸😭"; teddy.className="teddy cry"; extra.innerText=q.extraNo[Math.random()*q.extraNo.length|0];}
+  }
+
+  else if(q.type==="moveYes1"){
+    if(isYes){ teddy.innerText="🧸😭"; extra.innerText="Nijvalgu? Seriously? 😢"; moveYes(); }
+    else{ step++; loadQuestion(); }
+  }
+
+  else if(q.type==="moveYes2"){
+    if(isYes){ teddy.innerText="🧸😭"; extra.innerText="Nan ilde nin life empty alva dabba 😭"; moveYes(); }
+    else{ step++; loadQuestion(); }
+  }
+
+  else if(q.type==="replace"){
+    yesBtn.innerText="PREETHI ❤️";
+    noBtn.innerText="KETTU KOPA 😡";
+    if(isYes){ step++; loadQuestion(); }
+  }
+
+  else if(q.type==="moveYes3"){
+    if(isYes){ teddy.innerText="🧸😭"; extra.innerText="Kaniru yak haktiya nan irbekadre 😢"; moveYes(); }
+    else{ step++; loadQuestion(); }
+  }
+
+  else if(q.type==="custom"){
+    yesBtn.innerText="MOVE ON";
+    noBtn.innerText="NIN BITKODLA";
+    if(isYes){ step++; loadQuestion(); }
+  }
+
+  else if(q.type==="final"){
+    if(isYes){ showProposal(); }
+    else{ extra.innerText="Nin true love maadta idiya? 😔"; }
+  }
+}
+
+/* 💍 PROPOSAL */
+function showProposal(){
+  document.body.innerHTML=`
+  <div id="proposalScreen">
+    <div id="ring">💍</div>
+    <h1>Will You Be My Valentine? 💌</h1>
+    <button class="proposalBtn" onclick="acceptLove()">YES ❤️</button>
+    <button class="proposalBtn" onclick="rejectLove()">NO 🙈</button>
+  </div>`;
+}
+
+function acceptLove(){
+  proposalScreen.innerHTML=`
+  <h1>YESSS 💖💍</h1>
+  <div style="font-size:80px;">🧸💃 🧸💃 🧸💃</div>
+  <h2>Forever Starts Now 💞</h2>`;
+  startConfetti(); startRoses();
+}
+
+function rejectLove(){
+  proposalScreen.innerHTML=`
+  <h1>Ayyo 😭</h1>
+  <div style="font-size:70px;">🧸💔</div>
+  <h2>I’ll ask again 😌</h2>`;
+}
+
+/* 🎉 Effects */
+function startConfetti(){
+  for(let i=0;i<120;i++){
+    let c=document.createElement("div");
+    c.className="confetti"; c.innerText="🎉";
+    c.style.left=Math.random()*100+"vw";
+    c.style.animationDuration=Math.random()*3+2+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
+  }
+}
+function startRoses(){
+  for(let i=0;i<100;i++){
+    let r=document.createElement("div");
+    r.className="rose"; r.innerText="🌹";
+    r.style.left=Math.random()*100+"vw";
+    r.style.animationDuration=Math.random()*4+3+"s";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),6000);
+  }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
